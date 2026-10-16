@@ -8,6 +8,7 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 
 Route::get('/a-propos', [PageController::class, 'about'])->name('about');
 
+
 Route::get('/heure', function () {
     return view('heure', [
         'heure' => now()->format('H:i'),
@@ -26,3 +27,4 @@ Route::prefix('posts')->name('posts.')->group(function () {
         ->where('slug', '[a-z0-9-]+')
         ->name('show');
 });
+Route::get('/heure', [PageController::class, 'time'])->name('time');
