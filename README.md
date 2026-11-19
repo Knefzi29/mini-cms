@@ -6,31 +6,13 @@ Auteur : nefzi koussay, groupe 2 MDW32.
 
 Mini-CMS évoluera au fil du semestre vers une petite plateforme de publication : pages publiques, back-office authentifié, API JSON et tests Pest. Chaque session se termine par un tag Git (`lab-01`, `lab-01b`, puis un tag par session).
 
-## État actuel (tag lab-04b)
+## État actuel (tag lab-05)
 
-- Formulaires d'article : catégorie (liste déroulante) et tags (cases à cocher, synchronisés avec `sync()`).
-- Pages publiques par catégorie et par tag, liées par slug (`{category:slug}`, `{tag:slug}`).
-- Accueil : catégories et tags populaires comptés avec `withCount`, articles publiés seulement.
-- Tests Pest : `PostPagesTest`, `PostWriteTest`, `PostRelationsTest` et `PostTaxonomyTest`.
-
-## Routes disponibles
-
-| Méthode | URI | Nom | Action |
-|---|---|---|---|
-| GET | `/` | `home` | `PageController@home` |
-| GET | `/a-propos` | `about` | `PageController@about` |
-| GET | `/heure` | `time` | `PageController@time` |
-| GET | `/posts` | `posts.index` | `PostController@index` |
-| GET | `/posts/archive/{year}` | `posts.archive` | `PostController@archive` |
-| GET | `/posts/categorie/{category:slug}` | `posts.category` | `PostController@byCategory` |
-| GET | `/posts/tag/{tag:slug}` | `posts.tag` | `PostController@byTag` |
-| GET | `/posts/create` | `posts.create` | `PostController@create` |
-| POST | `/posts` | `posts.store` | `PostController@store` |
-| GET | `/posts/{post}` | `posts.show` | `PostController@show` |
-| GET | `/posts/{post}/edit` | `posts.edit` | `PostController@edit` |
-| PUT | `/posts/{post}` | `posts.update` | `PostController@update` |
-| DELETE | `/posts/{post}` | `posts.destroy` | `PostController@destroy` |
-| PATCH | `/posts/{post}/publication` | `posts.publication` | `PostController@togglePublication` |
+- Validation des articles dans `StorePostRequest` et `UpdatePostRequest` (`$request->validated()`) : plus aucune règle dans le contrôleur.
+- Messages flash après création, modification, suppression et publication, affichés par le layout avec `x-alert`.
+- Middleware `EnsureSiteIsWritable` (alias `writable`) : avec `SITE_READ_ONLY=true` dans `.env`, les requêtes d'écriture reçoivent une erreur 503.
+- Page « Article introuvable » (404) pour un article inexistant, rendue depuis `withExceptions` dans `bootstrap/app.php` ; les autres 404 gardent la page standard.
+- Tests Pest : `PostPagesTest`, `PostWriteTest`, `PostRelationsTest`, `PostTaxonomyTest` et `PostFeedbackTest`.
 ## Prérequis
 
 - PHP et Composer (PHP 8.3 ou plus depuis https://www.php.net/downloads, avec les extensions curl, fileinfo, mbstring, openssl, pdo_sqlite, sqlite3 et zip activées dans php.ini, et Composer depuis https://getcomposer.org).
@@ -117,3 +99,8 @@ Ouvrir ensuite http://localhost:8000 (adresse de l'application, différente de l
 ![Formulaire de modification avec la catégorie et les tags](screenshots/s08-formulaire-relations.png)
 
 ![Page des articles d'une catégorie](screenshots/s08-page-categorie.png)
+### Session 09
+
+![Page d'un article avec le message flash « Article créé. »](screenshots/s09-message-flash.png)
+
+![Page Article introuvable pour un identifiant inexistant](screenshots/s09-article-introuvable.png)
